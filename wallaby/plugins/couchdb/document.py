@@ -127,6 +127,12 @@ class CouchdbDocument(Document):
             if rev != None:
                 self.set('_rev', rev) 
 
+    def hasAttachment(self, name):
+        if self._database and name not in self._deletedAttachments and '_attachments' in self._data and name in self._data['_attachments']:
+            return True
+        else:
+            return False
+
     def deferredGetAttachment(self, name):
         get = False
         if name not in self._getAttachmentDefers:

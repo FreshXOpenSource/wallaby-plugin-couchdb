@@ -128,7 +128,7 @@ class CouchdbDocument(Document):
                 self.set('_rev', rev) 
 
     def hasAttachment(self, name):
-        if self._database and name not in self._deletedAttachments and '_attachments' in self._data and name in self._data['_attachments']:
+        if name in self._attachmentData or (self._database and name not in self._deletedAttachments and '_attachments' in self._data and name in self._data['_attachments']):
             return True
         else:
             return False

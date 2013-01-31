@@ -168,7 +168,7 @@ class CouchDB(Database, AbstractQuery):
         args = copy.deepcopy(query.get('args'))
         cnt  = None
 
-        if 'group_level' in args: args['group_level'] = int(args['group_level'])
+        if args and 'group_level' in args: args['group_level'] = int(args['group_level'])
 
         if not args or not ('reduce' in args or 'group' in args):
             if not args: 

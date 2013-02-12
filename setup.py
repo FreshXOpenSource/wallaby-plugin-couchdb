@@ -4,7 +4,7 @@
 from setuptools import setup, find_packages
 
 setup(name='wallaby-plugin-couchdb',
-      version='0.1.13',
+      version='0.1.14',
       url='https://github.com/FreshXOpenSource/wallaby-plugin-couchdb',
       author='FreshX GbR',
       author_email='wallaby@freshx.de',

@@ -188,11 +188,12 @@ class CouchDB(Database, AbstractQuery):
         import re
         m = re.search('_design/(.*?)/_view/(.*)', view)
         if m is not None:
-            viewID = m.group(1) + "/" + m.group(2)
-            # print "START CHANGES FOR", viewID
-            self._database.changes(self._viewChanged, filter='_view', view=viewID)
-            viewID = unicode("_view__" + viewID)
-            self._lastQuery[viewID] = query
+            view = m.group(1) + "/" + m.group(2)
+            viewID = unicode("_view__" + view)
+            if viewID not in self._lastQuery:
+                # print "START CHANGES FOR", viewID
+                self._database.changes(self._viewChanged, filter='_view', view=view)
+                self._lastQuery[viewID] = query
 
         if not getCount:
             d.callback((rows, -1))
@@ -238,8 +239,10 @@ class CouchDB(Database, AbstractQuery):
     def _viewChanged(self, changes, viewID=None, fromChanges=False):
         # print "VIEW CHANGED", viewID, fromChanges, viewID in self._lastQuery, changes
         if viewID in self._lastQuery:
+            query = self._lastQuery[viewID]
+            if changes is None: del self._lastQuery[viewID]
             from twisted.internet import reactor
-            reactor.callLater(0, self._query, None, self._lastQuery[viewID])
+            reactor.callLater(0, self._query, None, query)
 
     @defer.inlineCallbacks
     def _query(self, pillow, query):

@@ -168,6 +168,9 @@ class CouchdbDocument(Document):
         self._attachmentData[name] = attachment
         self._changedAttachments.append(name)
 
+    def database(self):
+        return self._database
+
     def deleteAttachment(self, name):
         if name in self._attachmentData:
             del self._attachmentData[name]

@@ -189,7 +189,7 @@ class CouchDB(Database, AbstractQuery):
         m = re.search('_design/(.*?)/_view/(.*)', view)
         if m is not None:
             changesview = m.group(1) + "/" + m.group(2)
-            viewID = unicode("_view__" + view)
+            viewID = unicode("_view__" + changesview)
             if viewID not in self._lastQuery:
                 # print "START CHANGES FOR", viewID
                 self._database.changes(self._viewChanged, filter='_view', view=changesview)
